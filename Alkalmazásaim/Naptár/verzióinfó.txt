@@ -1,1 +1,0 @@
-{"1.4_verzióinfó":"Az időcsík az aktuális napnyugta/napkelte értékét mutatja valamint időjárás jelentés és névnapok mutatása is bekerült az alkalmazásba. A kód funció el lett távolítja, a jegyzet frissítés miatt el lett távolítva! Nemsokára újra bekerült, + egyéb kisebb javítások.","1.5_verzióinfó":"Fejlesztés folyamatban!"}
