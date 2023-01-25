@@ -1,1 +1,1 @@
-{"aktuális":"1.0","aktuális-verzió-link":"","verzió-1.0-datum":"2023.01.25","verzió-kötelező-1.0":"igen"}
+{"aktuális":"1.0","aktuális-verzió-link":"https://play.google.com/store/apps/details?id=com.Alienforcegames.ChessFusionFree","verzió-1.0-datum":"2023.01.25","verzió-kötelező-1.0":"igen"}
