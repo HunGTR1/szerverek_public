@@ -1,0 +1,1 @@
+{"aktuális":"1.0","verzió-1.0-datum":"2023.01.25","verzió-kötelező-1.0":"igen"}
