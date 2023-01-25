@@ -1,1 +1,3 @@
-{"elérhető":"igen","telefonok_oke":"","tiltot_telefonok":""}
+{"private":"Jelenleg senki sem léphet be a játékba!
+Térj vissza késöbb!","ban":"Ki lettél bannolva örökre!
+Ha ezzel nem értesz egyet akkor írj üzenetet","elérhető":"igen","telefonok_oke":"","tiltot_telefonok":""}
