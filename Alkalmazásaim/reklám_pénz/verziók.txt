@@ -1,1 +1,1 @@
-{"aktuális":"1.1","aktuális-verzió-link":"https://play.google.com/store/apps/details?id=com.aerofly.aeroflyfs2020","verzió-1.1-datum":"2023.01.25","verzió-kötelező-1.1":"igen"}
+{"aktuális":"1.1","aktuális-verzió-link":"https://youtube.com/shorts/t2eEvna0BnY?feature=share","verzió-1.1-datum":"2023.01.25","verzió-kötelező-1.1":"igen"}
