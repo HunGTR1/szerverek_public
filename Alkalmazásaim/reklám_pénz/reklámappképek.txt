@@ -1,1 +1,1 @@
-{"gold":"https://raw.githubusercontent.com/HunGTR1/szerverek_public/main/Alkalmaz%C3%A1saim/rekl%C3%A1m_p%C3%A9nz/huf2.png"}
+{"gold":"https://firebasestorage.googleapis.com/v0/b/mydatabase-reklampenz/o/1693431354032.png?alt=media&token=45454df9-3d01-4757-acde-1bf9d15bdd6a"}
