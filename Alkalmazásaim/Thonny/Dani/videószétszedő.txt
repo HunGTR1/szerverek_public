@@ -1,0 +1,234 @@
+import cv2
+import os
+import shutil
+
+# Videófájl elérési útja
+video_file = r'E:\FORTNITE WINS\2023-09-02 22-49-50.mkv'
+
+# Kimeneti mappa elérési útja
+kimeneti_mappa = r'E:\TeraBoxDownload\Thonny\kepektezst'
+    
+    
+print("1 es gomb: a teljes videót képkockákba kibontja!")
+print("2 es gomb: Csupán a megadott intervallumban menti el az összes képkockát!")
+choice = input("Adja meg a választ (1 vagy más szám): ")
+valaszt = 'igen'
+
+if choice == '1':
+    
+    
+
+    # Videófájl elérési útja
+    video_path = video_file
+
+    # Ellenőrizd, hogy a videófájl létezik-e
+    if not os.path.exists(video_path):
+        print("A megadott videófájl nem található.")
+        exit()
+
+    # Kimeneti mappa elérési útja
+    output_folder = kimeneti_mappa
+    
+     # Mappa adatok törlése
+    shutil.rmtree(output_folder)
+
+    # Ellenőrizzük, hogy a kimeneti mappa létezik-e, ha nem, létrehozzuk
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # Videó tulajdonságok lekérése
+    cap = cv2.VideoCapture(video_path)
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))  # Videó összes képkockája
+
+    # Képek mérete és mértékegysége
+    first_frame = None
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        first_frame = frame
+        break
+
+    if first_frame is None:
+        print("A videóból nem sikerült kiolvasni a képkockát.")
+        exit()
+
+    first_frame_filename = os.path.join(output_folder, 'first_frame.jpg')
+    cv2.imwrite(first_frame_filename, first_frame)
+    first_frame_size_bytes = os.path.getsize(first_frame_filename)
+
+    # Számoljuk, hány képkocka fér el a tényleges méret alatt
+    frames_fit = total_frames * (first_frame_size_bytes // (total_frames * 1024))
+
+    # Hely kiszámolása megfelelő mértékegységben
+    size = frames_fit * first_frame_size_bytes
+    size_str = None
+
+    kep_meret = total_frames * first_frame_size_bytes
+
+    if kep_meret < 1024:
+        size_str = f'{kep_meret:.2f} bytes'
+    elif kep_meret < 1024**2:
+        size_str = f'{kep_meret / 1024:.2f} KB'
+    elif kep_meret < 1024**3:
+        size_str = f'{kep_meret / (1024**2):.2f} MB'
+    elif kep_meret < 1024**4:
+        size_str = f'{kep_meret / (1024**3):.2f} GB'
+    else:
+        size_str = f'{kep_meret / (1024**4):.2f} TB'
+
+    print(f'A videónak összesen {total_frames} képkockája van.')
+    print(f'A tényleges méretű első képkocka mérete: {first_frame_size_bytes / 1024:.2f} KB')
+    print(f'A képek összesített mérete: {size_str}')
+
+
+
+
+    # Töröljük a tényleges méretű első képkockát
+    os.remove(first_frame_filename)
+
+    user_input = input('Szeretnéd folytatni? (igen/nem): ')
+    if user_input.lower() != 'igen':
+        print('Feldolgozás leállítva.')
+        exit()
+
+    # Képek egyesével való mentése
+    frame_count = 0
+
+    while cap.isOpened() and frame_count < frames_fit:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        # Képkocka mentése
+        frame_filename = os.path.join(output_folder, f'{frame_count + 1}.jpg')
+        cv2.imwrite(frame_filename, frame)
+        
+        frame_count += 1
+        progress = (frame_count / frames_fit) * 100
+        print(f'Feldolgozás: {progress:.2f}%')
+
+        if frame_count == frames_fit:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+    print(f'{frame_count} kép készült és mentve.')
+
+
+
+elif choice == '2':
+    
+    # Videófájl elérési útja
+    video_path = video_file
+
+    # Ellenőrizd, hogy a videófájl létezik-e
+    if not os.path.exists(video_path):
+        print("A megadott videófájl nem található.")
+        exit()
+
+    # Kimeneti mappa elérési útja
+    output_folder = kimeneti_mappa
+    output_folder2 = output_folder
+    
+    # Mappa adatok törlése
+    shutil.rmtree(output_folder)
+
+    # Ellenőrizzük, hogy a kimeneti mappa létezik-e, ha nem, létrehozzuk
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    # Kérjük meg a felhasználót, hogy válassza ki a mentési módot (sorszám vagy idő)
+    print("Válassza ki a mentési módot:")
+    print("1. Képkockák mentése sorszám alapján")
+    print("2. Képkockák mentése időintervallum alapján")
+    save_mode = input("Adja meg a választ (1 vagy 2): ")
+
+    if save_mode == '1':
+        # Kérjük meg a felhasználót, hogy adja meg a kezdő és befejező sorszámot
+        start_frame = int(input("Adja meg a kezdő képkocka sorszámát: "))
+        end_frame = int(input("Adja meg a befejező képkocka sorszámát: "))
+
+        # Videó tulajdonságok lekérése
+        cap = cv2.VideoCapture(video_path)
+        total_frames_sorszam = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))  # Videó összes képkockája
+
+        # Ellenőrizzük, hogy a megadott sorszámok érvényesek-e
+        if start_frame < 1 or end_frame > total_frames_sorszam or start_frame > end_frame:
+            print("Érvénytelen képkocka sorszámok.")
+            exit()
+
+        frame_count = 0
+
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            frame_count += 1
+
+            # Ellenőrizzük, hogy a képkocka a megadott intervallumba esik-e
+            if start_frame <= frame_count <= end_frame:
+                frame_filename = os.path.join(output_folder, f'{frame_count}.jpg')
+                cv2.imwrite(frame_filename, frame)
+
+            # Folyamatindikátor kiírása
+            progress = (frame_count / total_frames_sorszam) * 100
+            print(f'Feldolgozás: {progress:.2f}%')
+
+        cap.release()
+        cv2.destroyAllWindows()
+        files_numbers1 = len(os.listdir(output_folder))
+        print(f'{files_numbers1} kép készült és mentve.')
+
+    elif save_mode == '2':
+        # Kérjük meg a felhasználót, hogy adja meg az időintervallumot (pl. 1:15 - 2:30)
+        time_interval = input("Adja meg az időintervallumot (pl. 1:15 - 2:30): ")
+
+        # Átalakítjuk az időintervallumot óra:perc formátumra
+        try:
+            start_time, end_time = map(lambda x: x.strip(), time_interval.split('-'))
+            start_hour, start_minute = map(int, start_time.split(':'))
+            end_hour, end_minute = map(int, end_time.split(':'))
+        except ValueError:
+            print("Érvénytelen időintervallum formátum.")
+            exit()
+
+        # Videó tulajdonságok lekérése
+        cap = cv2.VideoCapture(video_path)
+        fps = int(cap.get(cv2.CAP_PROP_FPS))  # Videó képkockasebessége
+
+        frame_count = 0
+        total_frames_ido = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))  # Új változó az időintervallum mentéséhez
+
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            frame_count += 1
+            current_time = frame_count / fps  # A jelenlegi idő a videóban
+
+            # Ellenőrizzük, hogy a képkocka az időintervallumban van-e
+            if (start_hour * 60 + start_minute) <= current_time <= (end_hour * 60 + end_minute):
+                frame_filename = os.path.join(output_folder, f'{frame_count}.jpg')
+                cv2.imwrite(frame_filename, frame)
+
+            # Folyamatindikátor kiírása az időintervallum mentéséhez
+            progress = (frame_count / total_frames_ido) * 100
+            print(f'Feldolgozás: {progress:.2f}%')
+            
+        files_numbers2 = len(os.listdir(output_folder2))
+        
+        print(files_numbers2, 'kép készült és mentve.')
+        cap.release()
+        cv2.destroyAllWindows()
+        
+
+    else:
+        print('Érvénytelen választás a mentési módban.')
+
+else:
+    print('Ismeretlen választás.')
