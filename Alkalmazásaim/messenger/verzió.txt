@@ -1,1 +1,1 @@
-{"aktuális":"1.0","verzió-1.1-link":"https://www.youtube.com/watch?v=Ga_RuzxPaMI","verzió-1.1-infó":"Kötelező frissítés! (1.1)"}
+{"aktuális":"1.1","verzió-1.1-link":"https://www.youtube.com/watch?v=Ga_RuzxPaMI","verzió-1.1-infó":"Kötelező frissítés! (1.1)"}
